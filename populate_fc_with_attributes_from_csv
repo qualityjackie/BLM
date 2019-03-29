@@ -4,7 +4,6 @@
 # dictionary
 ###################################################################
 
-
 import os
 import arcpy
 from arcpy import env
@@ -12,6 +11,13 @@ import csv
 
 codes_dict = {'key' : 'value'}
 print os.getcwd()# prints working directory
+# example csv:
+# name, code
+# hello, 1234
+# hi, 2222
+# jackie, 12
+# person, 11222233
+
 with open('test.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter = ',')
     line_count = 0
