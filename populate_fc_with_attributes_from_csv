@@ -1,0 +1,38 @@
+###################################################################
+# This script reads a txt file and converts the values into a
+# dictionary and then populates a feature class with attributes from
+# dictionary
+###################################################################
+
+
+import os
+import arcpy
+from arcpy import env
+import csv
+
+codes_dict = {'key' : 'value'}
+print os.getcwd()# prints working directory
+with open('test.txt') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter = ',')
+    line_count = 0
+    for row in csv_reader:
+        line_count +=1
+        print row
+        name = row[0]
+        code = row[1]
+        codes_dict[name] = code
+    print(line_count)
+print codes_dict
+
+arcpy.env.workspace = r'T:\GISUsers\jrambo.BLM\Desktop\test.gdb'
+fc = 'test'
+fields = ['name', 'code', 'other', 'long_integer']
+with arcpy.da.UpdateCursor(fc, fields) as cursor:
+    for row in cursor:
+        name = row[0]
+        if name not in codes_dict:
+            print 'need to add --', name, '-- to text file'
+        else:
+            code = codes_dict[name]
+            row[1] = code
+            cursor.updateRow(row)
